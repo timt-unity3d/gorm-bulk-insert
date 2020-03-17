@@ -12,8 +12,8 @@ import (
 
 type Ansi struct {
 	placeholders []string
-
 }
+
 func (d *Ansi) Init(mainScope *gorm.Scope, dbColumns []string) error {
 	// NOOP
 	return nil
