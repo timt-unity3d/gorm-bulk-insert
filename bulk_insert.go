@@ -35,10 +35,11 @@ func BulkInsert(db *gorm.DB, objects []interface{}, chunkSize int, excludeColumn
 func loadDriver(db *gorm.DB) (drivers.Driver, error) {
 	driver := (drivers.Driver)(new(drivers.Ansi))
 	if val, ok := db.Get("gorm:bulk_insert_driver"); ok {
-		driver, ok = val.(drivers.Driver)
-		if !ok {
+		var driverPrototype drivers.Driver
+		if driverPrototype, ok = val.(drivers.Driver); !ok {
 			return nil, errors.New("gorm:bulk_insert_driver needs to implement the gormbulk Driver interface")
 		}
+		driver = driverPrototype.Clone()
 	}
 	return driver, nil
 }
