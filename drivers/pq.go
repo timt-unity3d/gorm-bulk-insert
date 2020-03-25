@@ -13,9 +13,14 @@ type Pq struct {
 	stmt *sql.Stmt
 }
 
+func (d *Pq) Clone() Driver {
+	clone := *d
+	return &clone
+}
+
 func (d *Pq) Init(mainScope *gorm.Scope, dbColumns []string) error {
 	var err error
-	db := mainScope.DB().CommonDB()
+	db := mainScope.SQLDB()
 	d.stmt, err = db.Prepare(pq.CopyIn(mainScope.TableName(), dbColumns...))
 	return err
 }

@@ -14,6 +14,11 @@ type Ansi struct {
 	placeholders []string
 }
 
+func (d *Ansi) Clone() Driver {
+	clone := *d
+	return &clone
+}
+
 func (d *Ansi) Init(mainScope *gorm.Scope, dbColumns []string) error {
 	// NOOP
 	return nil
